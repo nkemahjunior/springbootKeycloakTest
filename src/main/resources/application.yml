@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: keycloakDemo
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: login-app
+            authorization-grant-type: authorization_code
+            scope: openid
+            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
+            #redirect-uri: http://localhost:8081/*
+            issuer-uri: http://localhost:8080/realms/application1 #spring automatically adds /.well-known/openid-configuration to the end of this endpoint to locate the OpenID Connect (OIDC) discovery endpoint.
+            # From the discovery endpoint, it finds the jwks_uri, which points to the endpoint containing the public keys for token verification.
+
+            # if you want to do that manually or environments where OIDC discovery is not supported or where you need a custom setup for JWT verification, you do :
+            #spring.security.oauth2.resourceserver.jwt.jwk-set-uri = the jwk uri
+            #user-name-attribute: preferred_username
+
+            #if you were using a well known provider such as google, okta...... they will be no need to add this configuration
+        provider:
+          keycloak:
+            authorization-uri: http://localhost:8080/realms/application1/protocol/openid-connect/auth
+            token-uri: http://localhost:8080/realms/application1/protocol/openid-connect/token
+            user-info-uri: http://localhost:8080/realms/application1/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+            jwk-set-uri: http://localhost:8080/realms/application1/protocol/openid-connect/certs
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/application1
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
