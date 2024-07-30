@@ -21,7 +21,7 @@ spring:
             #spring.security.oauth2.resourceserver.jwt.jwk-set-uri = the jwk uri
             #user-name-attribute: preferred_username
 
-            #if you were using a well known provider such as google, okta...... they will be no need to add this configuration
+            #if you were using a well known provider such as google, okta...... there will be no need to add this configuration
         provider:
           keycloak:
             authorization-uri: http://localhost:8080/realms/application1/protocol/openid-connect/auth
